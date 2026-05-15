@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<main layout:fragment="content">
+    <div class="waiting-container">
+        <h2>예매 대기 중</h2>
+        <p>잠시만 기다려주세요. 순서가 되면 자동으로 이동됩니다.</p>
+
+        <div class="rank-box">
+            <span>현재 대기 순번</span>
+            <strong id="current-rank">-</strong>
+            <span>번</span>
+        </div>
+
+        <button id="btn-leave" onclick="leaveQueue()">대기 취소</button>
+    </div>
+
+    <script th:inline="javascript">
+        const performanceId = [[${param.performanceId}]];
+        const token = [[${param.token}]];
+        let currentRank = [[${param.rank}]];
+
+        document.getElementById('current-rank').textContent = currentRank;
+
+        const eventSource = new EventSource(`/api/queue/${performanceId}/subscribe?token=${token}`);
+
+        eventSource.addEventListener('rank', (e) => {
+            const data = JSON.parse(e.data);
+            currentRank = data.rank;
+            document.getElementById('current-rank').textContent = data.rank;
+
+            if (data.activatable) {
+                eventSource.close();
+                alert('입장 가능합니다! 예매 페이지로 이동합니다.');
+                window.location.href = `/performances/${performanceId}?openModal=true`;
+            }
+        });
+
+        eventSource.onerror = () => {
+            eventSource.close();
+        };
+
+        async function leaveQueue() {
+            await fetch(`/api/queue/${performanceId}/leave?token=${token}`, {
+                method: 'DELETE'
+            });
+            window.location.href = `/performances/${performanceId}`;
+        }
+
+        window.addEventListener('beforeunload', () => {
+            navigator.sendBeacon(`/api/queue/${performanceId}/leave?token=${token}`);
+        });
+    </script>
+</main>
+</html>

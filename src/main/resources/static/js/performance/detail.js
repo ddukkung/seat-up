@@ -18,7 +18,28 @@ const Detail = {
             reserveBtn.disabled = true;
             reserveBtn.textContent = '로그인 후 예매 가능';
         } else {
-            document.getElementById('btn-reserve').addEventListener('click', () => Detail.openModal());
+            document.getElementById('btn-reserve').addEventListener('click', async () => {
+                const performanceId = document.getElementById('performance-id').value;
+
+                const result = await authFetch(`/api/queue/${performanceId}/enter`, {
+                    method: 'POST'
+                });
+
+                if (!result.ok) {
+                    alert('대기열 진입에 실패했습니다.');
+                    return;
+                }
+
+                const data = await result.json();
+                if (data.immediate) {
+                    // 바로 입장
+                    Detail.openModal();
+                } else {
+                    // 대기열 페이지로 이동
+                    window.location.href = `/queue/waiting?performanceId=${performanceId}&token=${data.token}&rank=${data.rank}`;
+                }
+            });
+
             document.getElementById('modal-close-btn').addEventListener('click', () => Detail.closeModal());
             document.getElementById('reserve-btn').addEventListener('click', () => Detail.reserve());
             document.getElementById('modal-schedule-select').addEventListener('change', (e) => Detail.onScheduleChange(e));
@@ -209,3 +230,44 @@ const Detail = {
 }
 
 document.addEventListener('DOMContentLoaded', () => Detail.init());
+
+window.testQueue = async function () {
+
+    const performanceId = 1;
+
+    const requests = [];
+
+    for (let i = 1; i <= 100; i++) {
+
+        requests.push(
+            authFetch(`/api/queue/${performanceId}/enter`, {
+                method: 'POST'
+            })
+            .then(async res => {
+
+                const data = await res.json();
+
+                return {
+                    index: i,
+                    immediate: data.immediate,
+                    rank: data.rank,
+                    token: data.token
+                };
+            })
+            .catch(err => ({
+                index: i,
+                error: err.message
+            }))
+        );
+    }
+
+    const results = await Promise.all(requests);
+
+    console.table(results);
+
+    const immediateUsers = results.filter(r => r.immediate);
+    const waitingUsers = results.filter(r => !r.immediate);
+
+    console.log("즉시 입장:", immediateUsers.length);
+    console.log("대기열:", waitingUsers.length);
+}
