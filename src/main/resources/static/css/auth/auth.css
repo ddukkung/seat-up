@@ -1,0 +1,83 @@
+/* ===== AUTH PAGE WRAPPER ===== */
+.auth-page {
+    min-height: calc(100vh - 128px); /* header + category 고려 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== AUTH BOX ===== */
+.auth-box {
+    width: 360px;
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== TITLE ===== */
+.auth-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+/* ===== FORM ===== */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.auth-form input {
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: #222;
+}
+
+/* ===== BUTTON ===== */
+.auth-form button {
+    height: 46px;
+    margin-top: 8px;
+    background: #222;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.auth-form button:hover {
+    background: #000;
+}
+
+/* ===== ERROR ===== */
+.auth-error {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #e53935;
+    text-align: center;
+}
+
+/* ===== LINK ===== */
+.auth-link {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-link a {
+    color: #222;
+    font-weight: 600;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}

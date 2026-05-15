@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>SeatUp</title>
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/auth/auth.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/performance/admin-performance.css}">
+
+    <!-- 페이지별 CSS -->
+    <th:block layout:fragment="page-style"></th:block>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <h1 class="logo">
+            <a href="/">SeatUp</a>
+        </h1>
+
+        <!-- 비로그인 -->
+        <div class="user-menu guest">
+            <a href="/auth/login">로그인</a>
+            <a href="/auth/sign-up">회원가입</a>
+        </div>
+
+        <!-- 로그인 -->
+        <div class="user-menu auth hidden">
+            <span class="username"></span>
+            <a href="/users/mypage">마이페이지</a>
+            <a href="/admin" class="admin-link hidden">관리자</a>
+            <button id="logoutBtn">로그아웃</button>
+        </div>
+    </div>
+</header>
+
+<nav class="category-nav">
+    <ul class="category-list">
+        <li th:each="category : ${categoryList}"
+            th:text="${category.categoryName}"
+            th:onclick="|location.href='/categories/${category.id}'|">
+        </li>
+    </ul>
+</nav>
+
+<main class="content" layout:fragment="content">
+    <!-- 페이지별 콘텐츠 -->
+</main>
+
+<!-- 공통 스크립트 -->
+<script src="/js/layout/main.js"></script>
+
+<!-- 페이지별 JS -->
+<th:block layout:fragment="page-script"></th:block>
+
+</body>
+</html>

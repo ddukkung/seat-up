@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 완료</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f7f4;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1a1a;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 56px 48px;
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+        }
+
+        .icon-wrap {
+            width: 72px;
+            height: 72px;
+            background: #eaf3de;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+        }
+
+        .icon-wrap svg {
+            width: 36px;
+            height: 36px;
+            stroke: #3b6d11;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .sub {
+            font-size: 14px;
+            color: #888780;
+            line-height: 1.6;
+            margin-bottom: 36px;
+        }
+
+        .info-box {
+            background: #f8f7f4;
+            border-radius: 12px;
+            padding: 20px 24px;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            padding: 6px 0;
+        }
+
+        .info-row:not(:last-child) {
+            border-bottom: 1px solid #ebe9e3;
+        }
+
+        .info-label {
+            color: #888780;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .info-value.amount {
+            color: #3b6d11;
+            font-size: 15px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: opacity 0.15s;
+        }
+
+        .btn-primary:hover { opacity: 0.85; }
+
+        .btn-secondary {
+            background: transparent;
+            color: #888780;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: color 0.15s;
+        }
+
+        .btn-secondary:hover { color: #1a1a1a; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon-wrap">
+            <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+        </div>
+
+        <h1>결제가 완료됐어요</h1>
+        <p class="sub">예매가 확정되었습니다.<br>즐거운 공연 관람 되세요.</p>
+
+        <div class="info-box">
+            <div class="info-row">
+                <span class="info-label">주문번호</span>
+                <span class="info-value" th:text="${orderId}">ORDER_123_1234567890</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">결제금액</span>
+                <span class="info-value amount" th:text="${#numbers.formatInteger(amount, 3, 'COMMA') + '원'}">50,000원</span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="/users/mypage/reservations" class="btn-primary">예매내역 확인</a>
+            <a href="/" class="btn-secondary">홈으로</a>
+        </div>
+    </div>
+</body>
+</html>

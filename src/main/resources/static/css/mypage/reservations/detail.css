@@ -1,0 +1,188 @@
+/* reservation-detail.css */
+.mt-40 { margin-top: 40px; }
+
+.detail-sub-title {
+    font-size: 16px;
+    color: #e53935;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.info-section {
+    display: flex;
+    gap: 30px;
+}
+
+.info-poster img {
+    width: 180px;
+    border: 1px solid #ddd;
+}
+
+.poster-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.btn-sm {
+    padding: 5px 8px;
+    font-size: 11px;
+    background: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* 상단 정보 테이블 */
+.info-table {
+    width: 100%;
+    border-top: 1px solid #eee;
+}
+
+.info-table th, .info-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.info-table th {
+    background-color: #f9f9f9;
+    text-align: left;
+    color: #666;
+}
+
+/* 가로형 결제 정보 테이블 */
+.horizontal-info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.horizontal-info-table th, .horizontal-info-table td {
+    padding: 15px;
+    border: 1px solid #eee;
+    font-size: 14px;
+}
+
+.horizontal-info-table th {
+    background: #f9f9f9;
+    width: 15%;
+}
+
+.horizontal-info-table td {
+    width: 35%;
+}
+
+.delivery-notice {
+    margin-top: 10px;
+    background: #f4f4f4;
+    padding: 15px;
+    font-size: 12px;
+    color: #888;
+}
+
+.price-summary {
+    text-align: right;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.total-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e53935;
+}
+
+.reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+.reservation-table th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    padding: 12px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.reservation-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+/* 가격 부분만 우측 정렬하고 싶을 때 */
+.reservation-table td:nth-child(4) {
+    text-align: right;
+    font-weight: bold;
+    color: #000;
+}
+
+.detail-action-group {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
+    padding-bottom: 50px;
+}
+
+/* 공통 버튼 스타일 */
+.detail-action-group button {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+/* 목록으로 버튼 */
+.btn-list {
+    background-color: #f1f3f5;
+    color: #495057;
+}
+
+.btn-list:hover {
+    background-color: #e9ecef;
+}
+
+/* 결제하기 버튼 */
+.btn-pay {
+    background-color: #e53935;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(237, 28, 36, 0.2);
+}
+
+.btn-pay:hover {
+    background-color: #c41219;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(237, 28, 36, 0.3);
+}
+
+/* 예매취소 버튼 */
+.btn-pay:active {
+    transform: translateY(0);
+}
+
+.btn-cancel {
+    background-color: #757575;
+    color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-cancel:hover {
+    background-color: #424242;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cancel:active {
+    transform: translateY(0);
+}

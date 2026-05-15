@@ -1,0 +1,337 @@
+/* ===== ADMIN FORM ===== */
+.admin-form {
+    background: #fff;
+    padding: 24px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.admin-form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.admin-form label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.admin-form input,
+.admin-form select,
+.admin-form textarea {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color 0.2s;
+}
+
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.admin-form .datetime-group {
+    display: flex;
+    gap: 20px;
+}
+
+.admin-form .datetime-group > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-form .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+    padding: 20px 0;
+}
+
+/* ===== POSTER UPLOAD ===== */
+.poster-upload-area {
+    position: relative;
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    background: #fafafa;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.poster-upload-area:hover,
+.poster-upload-area.drag-over {
+    border-color: #007bff;
+    background: #f0f7ff;
+}
+
+.poster-file-input {
+    display: none;
+}
+
+.poster-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    max-height: 300px;
+}
+
+#posterPlaceholder {
+    color: #aaa;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+}
+
+#posterPlaceholder.hidden {
+    display: none;
+}
+
+.poster-hint {
+    font-size: 12px;
+    color: #999;
+    margin-top: 6px;
+}
+
+/* 관리자 모달 전용 추가 스타일 */
+.form-group-row {
+    display: flex;
+    gap: 12px;
+}
+.form-group-row .form-group { flex: 1; }
+
+.modal-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.modal-grade-item-admin {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.modal-grade-item-admin select,
+.modal-grade-item-admin input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.grade-remove-btn {
+    background: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.schedule-management-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal {
+    background: #fff;
+    border-radius: 10px;
+    width: 800px; /* 관리자용이라 조금 더 넓게 잡음 */
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-divider {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-schedule-confirm {
+    background: #222;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.schedule-management-section {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.schedule-management-section h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.schedule-list-wrapper {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #fafafa;
+    border-bottom: 1px solid #eee;
+}
+
+.list-header .description {
+    font-size: 13px;
+    color: #777;
+    margin: 0;
+}
+
+.btn-add-new {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.schedule-table th {
+    background: #f4f4f4;
+    padding: 12px;
+    text-align: center;
+    font-size: 13px;
+    color: #555;
+    border-bottom: 1px solid #eee;
+}
+
+.schedule-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.schedule-table tr:last-child td {
+    border-bottom: none;
+}
+
+.btn-row-manage {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-row-manage:hover {
+    background: #555;
+}
+
+.empty-msg {
+    padding: 40px !important;
+    color: #999;
+}
+
+.btn-row-delete {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-row-delete:hover {
+    background: #bb2d3b;
+}
+
+.btn-row-delete:active {
+    background: #a52834;
+}

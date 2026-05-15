@@ -1,0 +1,74 @@
+/* ===== MYPAGE SECTION ===== */
+.mypage-section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 80px 0;
+    color: #aaa;
+    font-size: 14px;
+}
+
+/* ===== RESERVATION TABLE ===== */
+.reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.reservation-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 2px solid #eee;
+    white-space: nowrap;
+}
+
+.reservation-table td {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+}
+
+.reservation-table tbody tr:hover {
+    background: #fafafa;
+}
+
+/* 상태 뱃지 */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-confirmed {
+    background: #e6f4ea;
+    color: #2e7d32;
+}
+
+.status-pending {
+    background: #fff8e1;
+    color: #f57f17;
+}
+
+.status-canceled {
+    background: #fce4e4;
+    color: #c62828;
+}
+
+.status-expired {
+    background: #f0f0f0;
+    color: #888;
+}
+
+.reservation-row {
+    cursor: pointer;
+}

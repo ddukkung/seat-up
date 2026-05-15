@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mypage/main}">
+
+<div layout:fragment="mypage-content">
+
+    <h3 class="mypage-section-title">예매/취소 내역</h3>
+
+    <!-- 데이터 없을 때 -->
+    <div th:if="${reservations.isEmpty()}" class="empty-state">
+        <p>예매 내역이 없습니다.</p>
+    </div>
+
+    <!-- 예매 목록 -->
+    <table th:if="${!reservations.isEmpty()}" class="reservation-table">
+        <thead>
+        <tr>
+            <th>예매일</th>
+            <th>예약번호</th>
+            <th>상품명</th>
+            <th>이용일 / 매수</th>
+            <th>취소가능일</th>
+            <th>상태</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservations}"
+            th:onclick="|location.href='/users/mypage/reservations/${reservation.id}'|"
+            class="reservation-row">
+            <td th:text="${reservation.formattedReservedAt}"></td>
+            <td th:text="${reservation.id}"></td>
+            <td th:text="${reservation.performanceTitle}"></td>
+            <td>
+                <span th:text="${reservation.formattedStartDateTime}"></span>
+                <span th:text="${reservation.quantity} + '매'"></span>
+            </td>
+            <td th:text="${reservation.formattedExpiredAt}"></td>
+            <td>
+                    <span class="status-badge"
+                          th:text="${reservation.status}"
+                          th:classappend="${reservation.statusClass}">
+                    </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<th:block layout:fragment="mypage-style">
+    <link rel="stylesheet" th:href="@{/css/mypage/reservations/list.css}" />
+</th:block>

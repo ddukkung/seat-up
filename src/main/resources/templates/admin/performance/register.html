@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<main layout:fragment="content">
+    <div class="admin-container">
+        <div class="admin-header">
+            <h2>공연 등록</h2>
+        </div>
+        <div th:replace="~{admin/performance/form :: performanceForm(
+            '/admin/performances',
+            'register',
+            '등록'
+        )}">
+        </div>
+    </div>
+
+</main>
+
+<th:block layout:fragment="page-script">
+    <script type="module" src="/js/admin/performance/register.js"></script>
+</th:block>
+</html>

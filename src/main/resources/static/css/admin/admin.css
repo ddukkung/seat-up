@@ -1,0 +1,73 @@
+/* ===== ADMIN COMMON ===== */
+.admin-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.admin-container h2 {
+    font-size: 22px;
+    margin-bottom: 24px;
+}
+
+/* ===== ADMIN MENU ===== */
+.admin-menu {
+    display: flex;
+    gap: 20px;
+}
+
+.admin-menu-item {
+    padding: 20px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 160px;
+}
+
+.admin-menu-item:hover {
+    border-color: #333;
+}
+
+/* ===== ADMIN HEADER ===== */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* ===== TABLE ===== */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.admin-table th,
+.admin-table td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.admin-table th {
+    background: #f5f6f8;
+    font-weight: 600;
+}
+
+/* ===== BUTTON ===== */
+.btn {
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+    background: #ddd;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: #fff;

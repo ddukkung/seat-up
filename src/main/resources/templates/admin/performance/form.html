@@ -1,0 +1,191 @@
+<form id="performance-form" class="admin-form"
+      th:fragment="performanceForm(action, mode, submitLabel)"
+      th:action="${action}"
+      th:attr="data-mode=${mode}"
+      method="post">
+
+    <input type="hidden" id="performance-id" th:value="${performance?.id}"/>
+    <input type="hidden" id="performance-status" th:value="${performance?.status}"/>
+
+    <!-- 카테고리 -->
+    <div class="form-group">
+        <label>카테고리</label>
+        <select name="categoryId" id="category">
+            <option value="">선택</option>
+            <option th:each="category : ${categoryList}"
+                    th:value="${category.id}"
+                    th:text="${category.categoryName}"
+                    th:selected="${performance?.categoryId == category.id}">
+            </option>
+        </select>
+    </div>
+
+    <!-- 공연명 -->
+    <div class="form-group">
+        <label>공연명</label>
+        <input type="text" id="title" name="title" th:value="${performance?.title}" />
+    </div>
+
+    <!-- 설명 -->
+    <div class="form-group">
+        <label>설명</label>
+        <textarea id="description" name="description" th:text="${performance?.description}">
+        </textarea>
+    </div>
+
+    <!-- 시작일시 -->
+    <div class="form-group datetime-group">
+        <div class="form-group">
+            <label>공연 시작</label>
+            <input type="datetime-local" name="start-date-time" id="start-date-time"
+                   th:value="${performance?.startDateTime != null
+                        ? #temporals.format(performance.startDateTime, 'yyyy-MM-dd''T''HH:mm')
+                        : ''}" />
+        </div>
+
+        <!-- 종료일시 -->
+        <div class="form-group">
+            <label>공연 종료</label>
+            <input type="datetime-local" name="end-date-time" id="end-date-time"
+                   th:value="${performance?.endDateTime != null
+                        ? #temporals.format(performance.endDateTime, 'yyyy-MM-dd''T''HH:mm')
+                        : ''}" />
+        </div>
+
+        <!-- 티켓 예매 오픈일시 -->
+        <div class="form-group">
+            <label>티켓 예매 오픈 일시</label>
+            <input type="datetime-local" name="open-date-time" id="open-date-time"
+                   th:value="${performance?.openDateTime != null
+                        ? #temporals.format(performance.openDateTime, 'yyyy-MM-dd''T''HH:mm')
+                        : ''}" />
+        </div>
+
+        <!-- 티켓 예매 종료일시 -->
+        <div class="form-group">
+            <label>티켓 예매 종료 일시</label>
+            <input type="datetime-local" name="close-date-time" id="close-date-time"
+                   th:value="${performance?.closeDateTime != null
+                        ? #temporals.format(performance.closeDateTime, 'yyyy-MM-dd''T''HH:mm')
+                        : ''}" />
+        </div>
+    </div>
+
+    <!-- 장소 -->
+    <div class="form-group">
+        <label>공연 장소</label>
+        <input type="text" name="venue" id="venue" th:value="${performance?.venue}" />
+    </div>
+
+    <!-- 공연 포스터 -->
+    <div class="form-group">
+        <label>공연 포스터</label>
+        <div class="poster-upload-area" id="poster-upload-area">
+            <img id="poster-preview"
+                 th:if="${performance?.posterUrl != null}"
+                 th:src="@{'/uploads/' + ${performance?.posterUrl}}"
+                 class="poster-preview-img" />
+            <div id="poster-placeholder"
+                 th:classappend="${performance?.posterUrl != null} ? 'hidden' : ''">
+                <span>클릭하거나 이미지를 드래그하여 업로드</span>
+            </div>
+            <input type="file" id="poster-file" name="poster-file"
+                   accept="image/*" class="poster-file-input" />
+        </div>
+        <span class="poster-hint">JPG, PNG, GIF 최대 5MB</span>
+    </div>
+
+    <div class="schedule-management-section" data-performance-status="[[${performance.status}]]">
+        <h3>회차 및 좌석 관리</h3>
+        <div class="schedule-list-wrapper">
+            <div class="list-header">
+                <p class="description">현재 등록된 회차 목록입니다. 각 회차의 상세 좌석 정보를 수정하려면 '관리' 버튼을 클릭하세요.</p>
+                <button type="button" id="schedule-add-btn" class="btn-add-new">+ 새 회차 추가</button>
+            </div>
+
+            <table class="schedule-table">
+                <thead>
+                <tr>
+                    <th>회차</th>
+                    <th>공연 날짜</th>
+                    <th>공연 시간</th>
+                    <th>관리</th>
+                </tr>
+                </thead>
+                <tbody id="schedule-list-body">
+                <tr>
+                    <td colspan="4" class="empty-msg"></td>
+                </tr>
+                </tbody>
+
+                <template id="schedule-row-template">
+                    <tr>
+                        <td class="col-round"></td>
+                        <td class="col-date"></td>
+                        <td class="col-time"></td>
+                        <td>
+                            <button type="button" class="btn-row-manage">관리</button>
+                            <button type="button" class="btn-row-delete">삭제</button>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+    </div>
+
+    <div id="schedule-manage-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title" class="modal-title">회차 및 좌석 설정</h3>
+                <button type="button" id="schedule-modal-close" class="modal-close">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label class="modal-label">공연 날짜</label>
+                        <input type="date" id="modal-performance-date" class="modal-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="modal-label">공연 시간</label>
+                        <input type="time" id="modal-performance-time" class="modal-input">
+                    </div>
+                </div>
+
+                <hr class="modal-divider">
+
+                <div class="form-group">
+                    <label class="modal-label">좌석 등급 및 가격/수량</label>
+                    <div id="modal-seat-grade-list" class="modal-grade-list">
+                    </div>
+                    <button type="button" id="modal-add-grade-btn" class="btn-secondary-sm">+ 등급 추가</button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="save-schedule-btn" type="button" class="btn-schedule-confirm">회차 정보 저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <template id="modal-seat-grade-template">
+        <div class="modal-grade-item-admin seat-grade-row" data-id="">
+            <input type="hidden" class="seat-grade-id">
+            <select class="grade-select">
+                <option value="VIP">VIP</option>
+                <option value="R">R</option>
+                <option value="S">S</option>
+                <option value="A">A</option>
+            </select>
+            <input type="number" class="price" placeholder="가격">
+            <input type="number" class="quantity" placeholder="총 수량">
+            <button type="button" id="grade-remove-btn" class="grade-remove-btn">✕</button>
+        </div>
+    </template>
+
+    <div class="form-actions">
+        <button type="submit" id="btn-submit" class="btn btn-primary" th:text="${submitLabel}"></button>
+        <a href="/admin/performances" class="btn btn-secondary">목록으로</a>
+    </div>
+
+</form>

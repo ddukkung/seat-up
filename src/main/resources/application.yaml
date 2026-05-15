@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: seatup
+  datasource:
+    url: jdbc:mysql://localhost:3306/seat_up
+    username: admin
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+  jackson:
+    time-zone: Asia/Seoul
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+jwt:
+  access:
+    secret: ${JWT_ACCESS_SECRET}
+    expiration: 900000      # 15분
+  refresh:
+    secret: ${JWT_REFRESH_SECRET}
+    expiration: 604800000   # 7일
+
+file:
+  upload:
+    dir: D:/uploads/poster/
+
+logging:
+  level:
+    root: info
+    com.seatup: info
+    org.springframework.batch: info
+
+toss:
+  secret-key: ${TOSS_SECRET_KEY}

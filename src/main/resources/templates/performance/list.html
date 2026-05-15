@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<main layout:fragment="content">
+
+    <h2 th:text="${title}" class="page-title"></h2>
+
+    <ul class="performance-list">
+        <li th:each="performance : ${performances}" class="performance-card">
+            <a th:href="@{'/performances/' + ${performance.id}}">
+                <div class="performance-poster">
+                    <img th:if="${performance.posterUrl != null}"
+                         th:src="@{'/uploads/' + ${performance.posterUrl}}"
+                         th:alt="${performance.title}" />
+                    <div th:if="${performance.posterUrl == null}" class="poster-placeholder">
+                        <span>No Image</span>
+                    </div>
+                </div>
+                <div class="performance-info">
+                    <p class="performance-title" th:text="${performance.title}"></p>
+                    <p class="performance-date"
+                       th:text="${#temporals.format(performance.startDateTime, 'yyyy.MM.dd')}"></p>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+</main>
+
+<th:block layout:fragment="page-style">
+    <link rel="stylesheet" th:href="@{/css/performance/list.css}" />
+</th:block>
+</html>

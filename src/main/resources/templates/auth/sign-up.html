@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<main layout:fragment="content">
+    <div class="auth-page">
+        <div class="auth-box">
+            <h2 class="auth-title">Sign Up</h2>
+
+            <div class="auth-form">
+                <input type="text" id="loginId" name="loginId" placeholder="로그인 아이디" required>
+                <input type="password" id="password" name="password" placeholder="비밀번호" required>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인" required>
+                <input type="text" id="name" name="name" placeholder="이름" required>
+                <input type="email" id="email" name="email" placeholder="이메일" required>
+                <input type="text" id="address" name="address" placeholder="주소">
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="010-0000-0000">
+                <button type="button" id="signUpBtn">가입하기</button>
+            </div>
+
+            <div class="auth-link">
+                <a href="/auth/login">로그인으로 돌아가기</a>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block layout:fragment="page-script">
+    <script type="module" src="/js/auth/sign-up.js"></script>
+</th:block>
+</html>

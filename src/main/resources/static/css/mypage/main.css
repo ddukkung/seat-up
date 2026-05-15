@@ -1,0 +1,79 @@
+/* ===== MYPAGE ===== */
+.mypage-container {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+/* 사이드바 */
+.mypage-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.sidebar-profile {
+    padding: 24px 20px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #222;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+}
+
+.profile-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.profile-email {
+    font-size: 12px;
+    color: #888;
+}
+
+.sidebar-nav ul {
+    padding: 8px 0;
+}
+
+.sidebar-nav li a {
+    display: block;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #444;
+    transition: background 0.15s;
+}
+
+.sidebar-nav li a:hover {
+    background: #f5f5f5;
+}
+
+.sidebar-nav li a.active {
+    background: #f0f0f0;
+    font-weight: 600;
+    color: #222;
+}
+
+/* 콘텐츠 */
+.mypage-content {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 32px;
+    min-height: 500px;
+}

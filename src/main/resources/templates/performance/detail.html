@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<main layout:fragment="content">
+
+    <div class="performance-detail">
+        <input type="hidden" id="performance-id" th:value="${performance.id}">
+        <!-- 상단: 포스터 + 공연 정보 -->
+        <div class="detail-top">
+            <div class="detail-poster">
+                <img th:if="${performance.posterUrl != null}"
+                     th:src="@{'/uploads/' + ${performance.posterUrl}}"
+                     th:alt="${performance.title}" />
+                <div th:if="${performance.posterUrl == null}" class="poster-placeholder">
+                    <span>No Image</span>
+                </div>
+            </div>
+
+            <div class="detail-info">
+                <h2 class="detail-title" th:text="${performance.title}"></h2>
+
+                <ul class="detail-meta">
+                    <li>
+                        <span class="meta-label">공연 기간</span>
+                        <span class="meta-value"
+                              th:text="${#temporals.format(performance.startDateTime, 'yyyy년 MM월 dd일')}
+                                        + ' ~ '
+                                        + ${#temporals.format(performance.endDateTime, 'yyyy년 MM월 dd일')}">
+                        </span>
+                    </li>
+                    <li>
+                        <span class="meta-label">장소</span>
+                        <span class="meta-value" th:text="${performance.venue}"></span>
+                    </li>
+                </ul>
+
+                <!-- 공연 회차 -->
+                <div class="detail-grades">
+                    <p class="grades-label">공연 회차</p>
+                    <ul class="grade-list">
+                        <li th:each="schedule : ${performance.schedules}" class="grade-item">
+                            <span class="grade-name" th:text="${schedule.round} + '회차'"></span>
+                            <span class="grade-price" th:text="${#temporals.format(schedule.performanceDate, 'yyyy.MM.dd')}"></span>
+                            <span class="grade-remain" th:text="${#temporals.format(schedule.performanceTime, 'HH:mm')}"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="btn-reserve" id="btn-reserve"
+                        th:attr="data-performance-id=${performance.id}"
+                        th:disabled="${performance.status.name() != 'OPEN'}">
+                    <span th:if="${performance.status.name() == 'OPEN'}">예매하기</span>
+                    <span th:if="${performance.status.name() != 'OPEN'}">예매 불가</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 하단: 상세 설명 -->
+        <div class="detail-body">
+            <h3 class="body-title">공연 상세</h3>
+            <div class="body-content" th:text="${performance.description}"></div>
+        </div>
+
+    </div>
+
+    <!-- 예매 모달 -->
+    <div id="reservation-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">예매하기</h3>
+                <button id="modal-close-btn" class="modal-close">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="modal-label">공연 회차</label>
+                    <select id="modal-schedule-select" class="modal-select">
+                        <option value="">회차를 선택해주세요</option>
+                    </select>
+                </div>
+
+                <div id="grade-selection-section" class="form-group hidden">
+                    <label class="modal-label">좌석 등급</label>
+                    <ul id="modal-grade-list" class="modal-grade-list">
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <label class="modal-label">수량</label>
+                    <div class="quantity-control">
+                        <button type="button" id="quantity-minus">−</button>
+                        <span id="quantity-value">1</span>
+                        <button type="button" id="quantity-plus">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="modal-label">수령 방식</label>
+                    <select id="delivery-type">
+                        <option value="MOBILE">모바일</option>
+                        <option value="ONSITE">현장수령</option>
+                        <option value="DELIVERY">배송</option>
+                    </select>
+                </div>
+
+                <div class="modal-total">
+                    <span>총 결제금액</span>
+                    <span id="total-price">0원</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="reserve-btn" class="btn-reserve-confirm" disabled>회차를 선택해주세요</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<th:block layout:fragment="page-style">
+    <link rel="stylesheet" th:href="@{/css/performance/detail.css}" />
+</th:block>
+<th:block layout:fragment="page-script">
+    <script type="module" th:src="@{/js/performance/detail.js}"></script>
+</th:block>
+</html>

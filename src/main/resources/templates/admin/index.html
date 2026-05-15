@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<main layout:fragment="content" class="admin-container">
+
+    <h2>관리자 페이지</h2>
+
+    <div class="admin-menu">
+        <a href="/admin/categories" class="admin-menu-item">카테고리 관리</a>
+        <a href="/admin/performances" class="admin-menu-item">공연 관리</a>
+        <a href="/admin/users" class="admin-menu-item">회원 관리</a>
+    </div>
+
+</main>
+</html>
