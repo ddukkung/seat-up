@@ -25,4 +25,6 @@ public class ReservationRequest {
     @NotNull
     private DeliveryType deliveryType;
 
+    private String token;
+
 }

@@ -2,10 +2,104 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main}">
+<head>
+    <style>
+        .waiting-container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 56px 48px;
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+            margin: 60px auto;
+        }
+
+        .waiting-icon-wrap {
+            width: 72px;
+            height: 72px;
+            background: #f0f0ed;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+        }
+
+        .waiting-icon-wrap svg {
+            width: 36px;
+            height: 36px;
+            stroke: #1a1a1a;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .waiting-container h2 {
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+
+        .waiting-container p {
+            font-size: 14px;
+            color: #888780;
+            line-height: 1.6;
+            margin-bottom: 36px;
+        }
+
+        .rank-box {
+            background: #f8f7f4;
+            border-radius: 12px;
+            padding: 24px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .rank-box span {
+            font-size: 14px;
+            color: #888780;
+        }
+
+        .rank-box strong {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        #btn-leave {
+            background: transparent;
+            color: #888780;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            transition: color 0.15s;
+        }
+
+        #btn-leave:hover { color: #1a1a1a; }
+    </style>
+</head>
 <main layout:fragment="content">
     <div class="waiting-container">
+        <div class="waiting-icon-wrap">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+            </svg>
+        </div>
         <h2>예매 대기 중</h2>
-        <p>잠시만 기다려주세요. 순서가 되면 자동으로 이동됩니다.</p>
+        <p>잠시만 기다려주세요.<br>순서가 되면 자동으로 이동됩니다.</p>
 
         <div class="rank-box">
             <span>현재 대기 순번</span>
@@ -33,7 +127,7 @@
             if (data.activatable) {
                 eventSource.close();
                 alert('입장 가능합니다! 예매 페이지로 이동합니다.');
-                window.location.href = `/performances/${performanceId}?openModal=true`;
+                window.location.href = `/performances/${performanceId}?openModal=true&token=${token}`;
             }
         });
 

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class QueueService {
 
     private static final String QUEUE_KEY = "queue:performance:";
     private static final String ACTIVE_KEY = "active:performance:";
-    private static final int MAX_ACTIVE_USERS = 50;
+    private static final int MAX_ACTIVE_USERS = 1;
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
     private static final String ENTER_SCRIPT =
             "local active_key = KEYS[1] " +
@@ -58,6 +59,8 @@ public class QueueService {
                 String.valueOf(MAX_ACTIVE_USERS),
                 String.valueOf((long) score)
         );
+        redisTemplate.expire(activeKey, 15, TimeUnit.MINUTES);
+        redisTemplate.expire(queueKey, 15, TimeUnit.MINUTES);
 
         if (result == 1L) {
             return new QueueTokenResponse(token, 0L, true);
@@ -73,7 +76,7 @@ public class QueueService {
      * @param token
      * @return
      */
-    public Long getMyRank(Long performanceId, String token) {
+    private Long getMyRank(Long performanceId, String token) {
         String queueKey = QUEUE_KEY + performanceId;
         Long rank = redisTemplate.opsForZSet().rank(queueKey, token);
         return rank == null ? -1L : rank;
@@ -85,25 +88,33 @@ public class QueueService {
      * @param token
      * @return
      */
-    public boolean isActivatable(Long performanceId, String token) {
-        Long rank = getMyRank(performanceId, token);
-        return rank != null && rank < MAX_ACTIVE_USERS;
+    private boolean isActivatable(Long performanceId, String token) {
+        String activeKey = ACTIVE_KEY + performanceId;
+        Long activeCount = redisTemplate.opsForSet().size(activeKey);
+        return activeCount == null || activeCount < MAX_ACTIVE_USERS;
     }
 
     /**
-     * 대기열에서 제거
+     * 대기 중인 사용자가 취소할 때 대기열에서 제거
      * @param performanceId
      * @param token
      */
     public void removeFromQueue(Long performanceId, String token) {
         String queueKey = QUEUE_KEY + performanceId;
-        String activeKey = ACTIVE_KEY + performanceId;
-
-        redisTemplate.opsForSet().remove(activeKey, token);
         redisTemplate.opsForZSet().remove(queueKey, token);
         emitters.remove(token);
+        notifyAll(performanceId);
+    }
 
-        // 대기열 맨 앞 사람 입장 허용
+    /**
+     * 예매 완료 및 모달 이탈 시 대기열에서 제거
+     * @param performanceId
+     * @param token
+     */
+    public void removeFromActive(Long performanceId, String token) {
+        String activeKey = ACTIVE_KEY + performanceId;
+        redisTemplate.opsForSet().remove(activeKey, token);
+        emitters.remove(token);
         promoteNext(performanceId);
         notifyAll(performanceId);
     }

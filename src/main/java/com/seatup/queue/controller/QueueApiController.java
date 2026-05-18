@@ -29,13 +29,31 @@ public class QueueApiController {
     }
 
     @GetMapping(value = "/{performanceId}/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter subscribe(@PathVariable("performanceId") Long performanceId, @RequestParam String token) {
+    public SseEmitter subscribe(@PathVariable("performanceId") Long performanceId, @RequestParam("token") String token) {
         return queueService.subscribe(performanceId, token);
     }
 
     @DeleteMapping("/{performanceId}/leave")
-    public ResponseEntity<Void> leave(@PathVariable("performanceId") Long performanceId, @RequestParam String token) {
+    public ResponseEntity<Void> leave(@PathVariable("performanceId") Long performanceId, @RequestParam("token") String token) {
         queueService.removeFromQueue(performanceId, token);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{performanceId}/leave")
+    public ResponseEntity<Void> leavePost(@PathVariable("performanceId") Long performanceId, @RequestParam("token") String token) {
+        queueService.removeFromQueue(performanceId, token);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{performanceId}/leave-active")
+    public ResponseEntity<Void> leaveActive(@PathVariable Long performanceId, @RequestParam("token") String token) {
+        queueService.removeFromActive(performanceId, token);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{performanceId}/leave-active")
+    public ResponseEntity<Void> leaveActivePost(@PathVariable Long performanceId, @RequestParam("token") String token) {
+        queueService.removeFromActive(performanceId, token);
         return ResponseEntity.ok().build();
     }
 

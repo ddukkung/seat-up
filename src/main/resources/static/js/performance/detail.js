@@ -9,6 +9,7 @@ const Detail = {
     selectedRemain: 0,
     quantity: 1,
     schedulesData: [],
+    token: null,
 
     init() {
         const accessToken = localStorage.getItem('accessToken');
@@ -33,6 +34,7 @@ const Detail = {
                 const data = await result.json();
                 if (data.immediate) {
                     // 바로 입장
+                    Detail.token = data.token;
                     Detail.openModal();
                 } else {
                     // 대기열 페이지로 이동
@@ -47,6 +49,12 @@ const Detail = {
             Detail.bindQuantityControl();
         }
 
+        // 대기 완료 후 입장 시 예매 모달 자동 오픈
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('openModal') === 'true') {
+            Detail.token = urlParams.get('token');
+            Detail.openModal();
+        }
     },
 
     openModal() {
@@ -57,6 +65,15 @@ const Detail = {
 
     closeModal() {
         document.getElementById('reservation-modal').classList.add('hidden');
+
+        // 모달 닫기 시 대기열에서 제거
+        if (Detail.token) {
+            const performanceId = document.getElementById('performance-id').value;
+            authFetch(`/api/queue/${performanceId}/leave-active?token=${Detail.token}`, {
+                method: 'DELETE'
+            });
+            Detail.token = null;
+        }
     },
 
     resetModal() {
@@ -213,7 +230,8 @@ const Detail = {
                 scheduleId: Detail.selectedScheduleId,
                 seatGradeId: Detail.selectedGradeId,
                 quantity: Detail.quantity,
-                deliveryType: document.getElementById('delivery-type').value
+                deliveryType: document.getElementById('delivery-type').value,
+                token: Detail.token
             })
         })
         .then(async res => {
@@ -231,43 +249,11 @@ const Detail = {
 
 document.addEventListener('DOMContentLoaded', () => Detail.init());
 
-window.testQueue = async function () {
-
-    const performanceId = 1;
-
-    const requests = [];
-
-    for (let i = 1; i <= 100; i++) {
-
-        requests.push(
-            authFetch(`/api/queue/${performanceId}/enter`, {
-                method: 'POST'
-            })
-            .then(async res => {
-
-                const data = await res.json();
-
-                return {
-                    index: i,
-                    immediate: data.immediate,
-                    rank: data.rank,
-                    token: data.token
-                };
-            })
-            .catch(err => ({
-                index: i,
-                error: err.message
-            }))
+window.addEventListener('beforeunload', () => {
+    if (Detail.token) {
+        const performanceId = document.getElementById('performance-id').value;
+        navigator.sendBeacon(
+            `/api/queue/${performanceId}/leave-active?token=${Detail.token}`
         );
     }
-
-    const results = await Promise.all(requests);
-
-    console.table(results);
-
-    const immediateUsers = results.filter(r => r.immediate);
-    const waitingUsers = results.filter(r => !r.immediate);
-
-    console.log("즉시 입장:", immediateUsers.length);
-    console.log("대기열:", waitingUsers.length);
-}
+});

@@ -7,6 +7,7 @@ import com.seatup.performance.entity.Performance;
 import com.seatup.performance.repository.PerformanceRepository;
 import com.seatup.performance.schedule.entity.PerformanceSchedule;
 import com.seatup.performance.schedule.repository.PerformanceScheduleRepository;
+import com.seatup.queue.service.QueueService;
 import com.seatup.reservation.entity.Reservation;
 import com.seatup.reservation.dto.ReservationListResponse;
 import com.seatup.reservation.dto.ReservationRequest;
@@ -31,6 +32,7 @@ public class ReservationService {
     private final PerformanceScheduleRepository scheduleRepository;
     private final SeatGradeRepository seatGradeRepository;
     private final PaymentRepository paymentRepository;
+    private final QueueService queueService;
 
     @Transactional
     public void reserve(User user, @Valid ReservationRequest request) {
@@ -63,6 +65,11 @@ public class ReservationService {
 
         seat.decreaseRemainQuantity(request.getQuantity());
         reservationRepository.save(reservation);
+
+        // 예매 완료 후 active에서 제거
+        if (request.getToken() != null) {
+            queueService.removeFromActive(request.getPerformanceId(), request.getToken());
+        }
     }
 
     public List<ReservationListResponse> findByUserId(User user) {
