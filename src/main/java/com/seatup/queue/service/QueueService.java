@@ -3,10 +3,12 @@ package com.seatup.queue.service;
 import com.seatup.queue.dto.QueueTokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,6 +21,20 @@ public class QueueService {
     private static final String ACTIVE_KEY = "active:performance:";
     private static final int MAX_ACTIVE_USERS = 50;
     private final Map<String, SseEmitter> emitters = new ConcurrentHashMap<>();
+    private static final String ENTER_SCRIPT =
+            "local active_key = KEYS[1] " +
+                    "local queue_key = KEYS[2] " +
+                    "local token = ARGV[1] " +
+                    "local max = tonumber(ARGV[2]) " +
+                    "local score = tonumber(ARGV[3]) " +
+                    "local activeCount = redis.call('SCARD', active_key) " +
+                    "if activeCount < max then " +
+                    "    redis.call('SADD', active_key, token) " +
+                    "    return 1 " +
+                    "else " +
+                    "    redis.call('ZADD', queue_key, score, token) " +
+                    "    return 0 " +
+                    "end";
 
     private final StringRedisTemplate redisTemplate;
 
@@ -30,21 +46,24 @@ public class QueueService {
      */
     public QueueTokenResponse enterQueue(Long performanceId, Long userId) {
         String activeKey = ACTIVE_KEY + performanceId;
-        Long activeCount = redisTemplate.opsForSet().size(activeKey);
-
+        String queueKey = QUEUE_KEY + performanceId;
         String token = userId + ":" + System.currentTimeMillis();
+        double score = System.currentTimeMillis();
 
-        if (activeCount == null || activeCount < MAX_ACTIVE_USERS) {
-            // 바로 입장 - active에 추가
-            redisTemplate.opsForSet().add(activeKey, token);
+        RedisScript<Long> script = RedisScript.of(ENTER_SCRIPT, Long.class);
+        Long result = redisTemplate.execute(
+                script,
+                List.of(activeKey, queueKey),
+                token,
+                String.valueOf(MAX_ACTIVE_USERS),
+                String.valueOf((long) score)
+        );
+
+        if (result == 1L) {
             return new QueueTokenResponse(token, 0L, true);
         } else {
-            String queueKey = QUEUE_KEY + performanceId;
-            double score = System.currentTimeMillis(); // 진입 시간
-            redisTemplate.opsForZSet().add(queueKey, token, score);
             Long rank = redisTemplate.opsForZSet().rank(queueKey, token);
             return new QueueTokenResponse(token, rank + 1, false);
-
         }
     }
 
