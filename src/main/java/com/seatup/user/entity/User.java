@@ -66,6 +66,13 @@ public class User {
         return user;
     }
 
+    public void update(String name, String email, String phoneNumber, String address) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
     /**
      * 기존 회원을 탈퇴 상태로 변경한다.
      */
@@ -73,4 +80,7 @@ public class User {
         this.isDeleted = DeleteStatus.Y;
     }
 
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }
