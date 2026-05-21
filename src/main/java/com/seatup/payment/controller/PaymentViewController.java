@@ -2,10 +2,10 @@ package com.seatup.payment.controller;
 
 import com.seatup.common.exception.BusinessException;
 import com.seatup.payment.service.PaymentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -14,13 +14,10 @@ import java.nio.charset.StandardCharsets;
 
 @Controller
 @RequestMapping("/users/mypage/reservations/payment")
+@RequiredArgsConstructor
 public class PaymentViewController {
 
     private final PaymentService paymentService;
-
-    public PaymentViewController(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
 
     @GetMapping("/success")
     public String success(@RequestParam("paymentKey") String paymentKey, @RequestParam("orderId") String orderId,

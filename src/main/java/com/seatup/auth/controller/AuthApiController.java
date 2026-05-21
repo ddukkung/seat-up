@@ -14,6 +14,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,15 +27,11 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthApiController {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenService refreshTokenService;
-
-    public AuthApiController(JwtTokenProvider jwtTokenProvider, RefreshTokenService refreshTokenService) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.refreshTokenService = refreshTokenService;
-    }
 
     @Autowired
     private AuthService authService;

@@ -3,11 +3,13 @@ package com.seatup.admin.seat.dto;
 import com.seatup.seat.enums.Grade;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UpdateSeatGradeRequest implements SeatGradeDto {
 
     private Long id;

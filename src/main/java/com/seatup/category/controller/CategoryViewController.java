@@ -4,6 +4,7 @@ import com.seatup.category.entity.Category;
 import com.seatup.category.service.CategoryService;
 import com.seatup.performance.service.PerformanceService;
 import com.seatup.performance.dto.PerformanceListResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +15,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/categories")
+@RequiredArgsConstructor
 public class CategoryViewController {
 
     private final CategoryService categoryService;
     private final PerformanceService performanceService;
-
-    public CategoryViewController(CategoryService categoryService, PerformanceService performanceService) {
-        this.categoryService = categoryService;
-        this.performanceService = performanceService;
-    }
 
     @GetMapping("/{categoryId}")
     public String performancesByCategory(@PathVariable("categoryId") Long categoryId, Model model) {

@@ -11,6 +11,7 @@ import com.seatup.performance.schedule.entity.PerformanceSchedule;
 import com.seatup.seat.entity.SeatGrade;
 import com.seatup.seat.repository.SeatGradeRepository;
 import com.seatup.seat.enums.Grade;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -19,13 +20,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AdminSeatGradeService {
 
     private final SeatGradeRepository seatGradeRepository;
-
-    public AdminSeatGradeService(SeatGradeRepository seatGradeRepository) {
-        this.seatGradeRepository = seatGradeRepository;
-    }
 
     public void registerSeatGrades(RegisterScheduleRequest scheduleRequest, PerformanceSchedule schedule) {
         List<RegisterSeatGradeRequest> seatGrades = scheduleRequest.getSeatGrades();

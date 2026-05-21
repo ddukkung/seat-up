@@ -6,21 +6,16 @@ import com.seatup.auth.dto.LoginRequest;
 import com.seatup.auth.dto.SignUpRequest;
 import com.seatup.auth.exception.DuplicateLoginIdException;
 import com.seatup.auth.exception.LoginFailedException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
-
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public AuthService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     /**
      * 회원 가입을 실행한다.

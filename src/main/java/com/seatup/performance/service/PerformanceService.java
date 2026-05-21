@@ -1,23 +1,20 @@
 package com.seatup.performance.service;
 
 import com.seatup.common.exception.BusinessException;
-import com.seatup.common.performance.PerformanceQueryService;
 import com.seatup.performance.entity.Performance;
 import com.seatup.performance.dto.PerformanceDetailResponse;
 import com.seatup.performance.dto.PerformanceListResponse;
 import com.seatup.performance.repository.PerformanceRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PerformanceService {
 
     private final PerformanceRepository performanceRepository;
-
-    public PerformanceService(PerformanceRepository performanceRepository) {
-        this.performanceRepository = performanceRepository;
-    }
 
     /**
      * 공연 분류에 맞는 공연 리스트를 반환한다.

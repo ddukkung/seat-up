@@ -3,6 +3,7 @@ package com.seatup.performance.schedule.dto;
 import com.seatup.performance.schedule.entity.PerformanceSchedule;
 import com.seatup.seat.dto.SeatGradeResponse;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ScheduleDetailResponse {
 
     private Long id;
@@ -23,14 +25,6 @@ public class ScheduleDetailResponse {
     private int round;
 
     private List<SeatGradeResponse> seatGrades;
-
-    public ScheduleDetailResponse(Long id, LocalDate performanceDate, LocalTime performanceTime, int round, List<SeatGradeResponse> seatGrades) {
-        this.id = id;
-        this.performanceDate = performanceDate;
-        this.performanceTime = performanceTime;
-        this.round = round;
-        this.seatGrades = seatGrades;
-    }
 
     public ScheduleDetailResponse(Long id, LocalDate performanceDate, LocalTime performanceTime, int round) {
         this.id = id;

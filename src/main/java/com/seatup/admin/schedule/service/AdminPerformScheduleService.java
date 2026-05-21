@@ -12,26 +12,20 @@ import com.seatup.seat.dto.SeatGradeResponse;
 import com.seatup.seat.entity.SeatGrade;
 import com.seatup.seat.repository.SeatGradeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminPerformScheduleService {
 
     private final PerformanceScheduleRepository scheduleRepository;
     private final PerformanceRepository performanceRepository;
     private final AdminSeatGradeService seatGradeService;
     private final SeatGradeRepository seatGradeRepository;
-
-    public AdminPerformScheduleService(PerformanceScheduleRepository scheduleRepository, PerformanceRepository performanceRepository,
-                                       AdminSeatGradeService seatGradeService, SeatGradeRepository seatGradeRepository) {
-        this.scheduleRepository = scheduleRepository;
-        this.performanceRepository = performanceRepository;
-        this.seatGradeService = seatGradeService;
-        this.seatGradeRepository = seatGradeRepository;
-    }
 
     public AdminScheduleListResponse findSchedules(Long id) {
         List<PerformanceSchedule> scheduleEntityList = scheduleRepository.findByPerformanceId(id);

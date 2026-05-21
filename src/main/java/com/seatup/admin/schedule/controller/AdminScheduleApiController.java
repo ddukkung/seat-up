@@ -5,18 +5,16 @@ import com.seatup.admin.schedule.dto.AdminScheduleResponse;
 import com.seatup.admin.schedule.dto.RegisterScheduleRequest;
 import com.seatup.admin.schedule.dto.UpdateScheduleRequest;
 import com.seatup.admin.schedule.service.AdminPerformScheduleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin/schedules")
+@RequiredArgsConstructor
 public class AdminScheduleApiController {
 
     private final AdminPerformScheduleService scheduleService;
-
-    public AdminScheduleApiController(AdminPerformScheduleService scheduleService) {
-        this.scheduleService = scheduleService;
-    }
 
     @GetMapping
     public ResponseEntity<AdminScheduleListResponse> getSchedules(@RequestParam("performanceId") Long performanceId) {

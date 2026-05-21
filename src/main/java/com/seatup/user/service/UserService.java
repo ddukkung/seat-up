@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -27,21 +26,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtProvider;
     private final StringRedisTemplate redisTemplate;
-
-    /**
-     * 로그인 아이디를 통해 회원을 조회한다.
-     * @param loginId
-     * @return
-     */
-    public UserResponse getUserByLoginId(String loginId) {
-        Optional<User> foundMember = userRepository.findByLoginId(loginId);
-
-        if (foundMember.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-
-        return UserResponse.from(foundMember.get());
-    }
 
     /**
      * 사용자 고유 아이디로 회원 정보를 조회한다.

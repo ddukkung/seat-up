@@ -2,18 +2,19 @@ package com.seatup.admin.schedule.dto;
 
 import com.seatup.admin.seat.dto.RegisterSeatGradeRequest;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 @Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterScheduleRequest {
 
     @NotNull

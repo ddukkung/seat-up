@@ -119,8 +119,6 @@ public class JwtTokenProvider {
                 .toLocalDateTime();
     }
 
-    // resolveAccessToken, resolveToken, extractTokenFromCookie 등 나머지 메서드는 로직 동일함 (생략 가능하나 유지함)
-
     public String resolveAccessToken(HttpServletRequest request) {
         return resolveToken(request, "accessToken");
     }

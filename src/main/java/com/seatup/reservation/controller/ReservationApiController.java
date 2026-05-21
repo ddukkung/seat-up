@@ -8,6 +8,7 @@ import com.seatup.user.entity.User;
 import com.seatup.user.service.UserService;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,16 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/reservations")
 public class ReservationApiController {
 
     private final UserService userService;
     private final ReservationService reservationService;
-
-    public ReservationApiController(UserService userService, ReservationService reservationService) {
-        this.userService = userService;
-        this.reservationService = reservationService;
-    }
 
     @PostMapping
     public ResponseEntity<Void> reserve(@AuthenticationPrincipal UserPrincipal principal,

@@ -5,22 +5,17 @@ import com.seatup.performance.schedule.dto.ScheduleDetailResponse;
 import com.seatup.performance.schedule.entity.PerformanceSchedule;
 import com.seatup.performance.schedule.repository.PerformanceScheduleRepository;
 import com.seatup.seat.dto.SeatGradeResponse;
-import com.seatup.seat.repository.SeatGradeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PerformanceScheduleService {
 
-    private final SeatGradeRepository seatGradeRepository;
     private final PerformanceScheduleRepository scheduleRepository;
-
-    public PerformanceScheduleService(SeatGradeRepository seatGradeRepository, PerformanceScheduleRepository scheduleRepository) {
-        this.seatGradeRepository = seatGradeRepository;
-        this.scheduleRepository = scheduleRepository;
-    }
 
     @Transactional(readOnly = true)
     public PerformanceBookingResponse getSchedules(Long performanceId) {

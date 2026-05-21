@@ -3,18 +3,16 @@ package com.seatup.category.service;
 import com.seatup.category.entity.Category;
 import com.seatup.category.repository.CategoryRepository;
 import com.seatup.category.exception.CategoryNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     /**
      * 공연 분류 리스트를 반환한다.

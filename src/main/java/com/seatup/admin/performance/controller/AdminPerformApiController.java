@@ -6,10 +6,10 @@ import com.seatup.admin.schedule.dto.AdminScheduleListResponse;
 import com.seatup.common.file.FileService;
 import com.seatup.jwt.UserPrincipal;
 import com.seatup.admin.performance.dto.RegisterPerformanceRequest;
-import com.seatup.performance.schedule.service.PerformanceScheduleService;
 import com.seatup.user.entity.User;
 import com.seatup.user.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,21 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/admin/performances")
+@RequiredArgsConstructor
 public class AdminPerformApiController {
 
     private final AdminPerformService performService;
     private final UserService userService;
     private final FileService fileService;
-
-    public AdminPerformApiController(AdminPerformService performService, UserService userService, FileService fileService) {
-        this.performService = performService;
-        this.userService = userService;
-        this.fileService = fileService;
-    }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Long> registerPerformance(@AuthenticationPrincipal UserPrincipal principal,

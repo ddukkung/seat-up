@@ -6,6 +6,7 @@ import com.seatup.reservation.dto.ReservationListResponse;
 import com.seatup.user.entity.User;
 import com.seatup.user.service.UserService;
 import com.seatup.user.mypage.dto.ReservationDetailResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,16 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/users/mypage")
 public class MyPageViewController {
 
     private final UserService userService;
     private final ReservationService reservationService;
-
-    public MyPageViewController(UserService userService, ReservationService reservationService) {
-        this.userService = userService;
-        this.reservationService = reservationService;
-    }
 
     @GetMapping
     public String myPage(@AuthenticationPrincipal UserPrincipal principal, Model model) {

@@ -4,23 +4,19 @@ import com.seatup.admin.performance.dto.AdminPerformanceListResponse;
 import com.seatup.admin.performance.dto.AdminPerformanceResponse;
 import com.seatup.admin.performance.dto.UpdatePerformanceRequest;
 import com.seatup.admin.performance.exception.PerformanceNotFoundException;
-import com.seatup.admin.seat.service.AdminSeatGradeService;
 import com.seatup.category.entity.Category;
 import com.seatup.category.repository.CategoryRepository;
 import com.seatup.common.exception.BusinessException;
-import com.seatup.common.performance.PerformanceQueryService;
 import com.seatup.performance.entity.Performance;
 import com.seatup.performance.repository.PerformanceRepository;
-import com.seatup.performance.schedule.service.PerformanceScheduleService;
 import com.seatup.performance.service.PerformanceService;
 import com.seatup.admin.performance.dto.RegisterPerformanceRequest;
 import com.seatup.admin.performance.exception.InvalidPerformancePeriodException;
-import com.seatup.performance.enums.PerformanceStatus;
-import com.seatup.reservation.entity.Reservation;
 import com.seatup.reservation.enums.ReservationStatus;
 import com.seatup.reservation.repository.ReservationRepository;
 import com.seatup.user.entity.User;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,22 +24,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminPerformService {
 
     private final PerformanceService performanceService;
     private final PerformanceRepository performanceRepository;
     private final CategoryRepository categoryRepository;
-    private final PerformanceQueryService performanceQueryService;
     private final ReservationRepository reservationRepository;
-
-    public AdminPerformService(PerformanceService performanceService, PerformanceRepository performanceRepository, CategoryRepository categoryRepository,
-                               PerformanceQueryService performanceQueryService, ReservationRepository reservationRepository) {
-        this.performanceService = performanceService;
-        this.performanceRepository = performanceRepository;
-        this.categoryRepository = categoryRepository;
-        this.performanceQueryService = performanceQueryService;
-        this.reservationRepository = reservationRepository;
-    }
 
     public List<AdminPerformanceListResponse> getPerformanceList() {
         List<Performance> performanceEntities = performanceService.getPerformanceList();
@@ -128,7 +115,7 @@ public class AdminPerformService {
     }
 
     public AdminPerformanceResponse findPerformance(Long id) {
-        Performance performance = performanceQueryService.findById(id);
+        Performance performance = performanceRepository.findById(id).orElseThrow(PerformanceNotFoundException::new);
         return AdminPerformanceResponse.from(performance);
     }
 }
