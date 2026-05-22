@@ -1,5 +1,6 @@
 package com.seatup.category.service;
 
+import com.seatup.category.dto.CategoryListResponse;
 import com.seatup.category.entity.Category;
 import com.seatup.category.repository.CategoryRepository;
 import com.seatup.category.exception.CategoryNotFoundException;
@@ -18,9 +19,12 @@ public class CategoryService {
      * 공연 분류 리스트를 반환한다.
      * @return
      */
-    // TODO : 엔티티에서 dto로 변환해서 반환하게 수정하기
-    public List<Category> getCategoryList() {
-        return categoryRepository.findAll();
+    public List<CategoryListResponse> getCategoryList() {
+        List<Category> categories = categoryRepository.findAll();
+        return categories.stream()
+                .map(CategoryListResponse::from)
+                .toList();
+
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.seatup.web;
 
+import com.seatup.category.dto.CategoryListResponse;
 import com.seatup.category.entity.Category;
 import com.seatup.category.service.CategoryService;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,7 +18,7 @@ public class GlobalModelAttribute {
     }
 
     @ModelAttribute("categoryList")
-    public List<Category> categoryList() {
+    public List<CategoryListResponse> categoryList() {
         return categoryService.getCategoryList();
     }
 }

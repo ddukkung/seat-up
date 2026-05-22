@@ -32,7 +32,6 @@ public class PerformanceService {
      * 삭제 상태를 포함한 모든 공연 리스트를 반환한다.
      * @return
      */
-    // TODO : 엔티티 -> DTO...^^
     public List<Performance> getPerformanceList() {
         return performanceRepository.findAll();
     }
