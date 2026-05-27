@@ -53,18 +53,18 @@ public class AdminPerformService {
 
         validatePerformanceData(request);
 
-        Performance performance = Performance.create(
-                category,
-                request.getTitle(),
-                request.getDescription(),
-                request.getStartDateTime(),
-                request.getEndDateTime(),
-                request.getOpenDateTime(),
-                request.getCloseDateTime(),
-                request.getVenue(),
-                user.getId(),
-                request.getPosterUrl()
-        );
+        Performance performance = Performance.builder()
+                .category(category)
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .startDateTime(request.getStartDateTime())
+                .endDateTime(request.getEndDateTime())
+                .openDateTime(request.getOpenDateTime())
+                .closeDateTime(request.getCloseDateTime())
+                .venue(request.getVenue())
+                .createdBy(user.getId())
+                .posterUrl(request.getPosterUrl())
+                .build();
 
         performanceRepository.save(performance);
         return performance.getId();

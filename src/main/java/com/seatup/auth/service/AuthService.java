@@ -31,14 +31,14 @@ public class AuthService {
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-        User signUpUser = User.create(
-                request.getLoginId(),
-                encodedPassword,
-                request.getName(),
-                request.getEmail(),
-                request.getPhoneNumber(),
-                request.getAddress()
-        );
+        User signUpUser = User.builder()
+                .loginId(request.getLoginId())
+                .password(encodedPassword)
+                .name(request.getName())
+                .email(request.getEmail())
+                .phoneNumber(request.getPhoneNumber())
+                .address(request.getAddress())
+                .build();
 
         try {
             userRepository.save(signUpUser);
