@@ -7,6 +7,7 @@ import com.seatup.performance.enums.PerformanceStatus;
 import com.seatup.performance.schedule.entity.PerformanceSchedule;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -77,25 +78,23 @@ public class Performance {
     @OneToMany(mappedBy = "performance", fetch = FetchType.LAZY)
     private List<PerformanceSchedule> schedules;
 
-    public static Performance create(Category category, String title, String description, LocalDateTime startDateTime,
-                                     LocalDateTime endDateTime, LocalDateTime openDateTime, LocalDateTime closeDateTime,
-                                     String venue, Long createdBy, String posterUrl) {
-        Performance performance = new Performance();
-        performance.category = category;
-        performance.title = title;
-        performance.description = description;
-        performance.startDateTime = startDateTime;
-        performance.endDateTime = endDateTime;
-        performance.openDateTime = openDateTime;
-        performance.closeDateTime = closeDateTime;
-        performance.venue = venue;
-        performance.status = PerformanceStatus.DRAFT;
-        performance.isDeleted = PerformanceDeleteStatus.N;
-        performance.createdAt = LocalDateTime.now();
-        performance.createdBy = createdBy;
-        performance.posterUrl = posterUrl;
-
-        return performance;
+    @Builder
+    public Performance(Category category, String title, String description, LocalDateTime startDateTime,
+                         LocalDateTime endDateTime, LocalDateTime openDateTime, LocalDateTime closeDateTime,
+                         String venue, Long createdBy, String posterUrl) {
+        this.category = category;
+        this.title = title;
+        this.description = description;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.openDateTime = openDateTime;
+        this.closeDateTime = closeDateTime;
+        this.venue = venue;
+        this.status = PerformanceStatus.DRAFT;
+        this.isDeleted = PerformanceDeleteStatus.N;
+        this.createdAt = LocalDateTime.now();
+        this.createdBy = createdBy;
+        this.posterUrl = posterUrl;
     }
 
     public void update(Category category, String title, String description, LocalDateTime startDateTime,

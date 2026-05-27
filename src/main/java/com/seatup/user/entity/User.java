@@ -4,6 +4,7 @@ import com.seatup.user.enums.DeleteStatus;
 import com.seatup.user.enums.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -51,19 +52,17 @@ public class User {
     @Column(name = "CREATED_AT", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public static User create(String loginId, String password, String name, String email, String phoneNumber, String address) {
-        User user = new User();
-        user.loginId = loginId;
-        user.password = password;
-        user.name = name;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.address = address;
-        user.role = Role.USER;
-        user.isDeleted = DeleteStatus.N;
-        user.createdAt = LocalDateTime.now();
-
-        return user;
+    @Builder
+    public User(String loginId, String password, String name, String email, String phoneNumber, String address) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.role = Role.USER;
+        this.isDeleted = DeleteStatus.N;
+        this.createdAt = LocalDateTime.now();
     }
 
     public void update(String name, String email, String phoneNumber, String address) {
